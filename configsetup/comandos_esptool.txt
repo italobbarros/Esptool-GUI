@@ -1,0 +1,3 @@
+python -m esptool flash_id
+python -m esptool --baud 115200 --port COM9 erase_flash
+python -m esptool -b 115200 -p COM12 write_flash -z --flash_mode dio --flash_freq 40m --flash_size 4MB  0x1000 bootloaderESP32/bootloader_dio_40m.bin 0x8000 partitions.bin 0xe000 boot_app0.bin 0x10000 firmware.bin
