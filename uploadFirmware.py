@@ -133,20 +133,22 @@ def esptoolTypeMCU(values,window):
         else:
             writeFlash = ['--baud', values['uploadSpeedLabel'],'-p',values['comLabel'],'--chip','ESP8266' ,'write_flash','--flash_mode', values['flashModeLabel'],'--flash_freq',values['flashFreqLabel'],'--flash_size',values['flashSizeLabel'],'0x0000', values['firmwareLabel']]                                  
         closeSerial(values)
-    elif(values['MCULabel']== 'ESP32'):
-        if(values['nvsLabel'] == ''):
-            window['nvsLabel'].Update( str(os.getcwd())+'frameworkArduinoESP32\\configsetup\\partitions.bin')   
+    elif(values['MCULabel']== 'ESP32'):        
         if(values['comLabel'] =='Auto'):
-            writeFlash = ['--baud', values['uploadSpeedLabel'],'--chip','ESP32', 'write_flash','--flash_mode', values['flashModeLabel'],'--flash_freq',values['flashFreqLabel'],'--flash_size',values['flashSizeLabel'],'0x1000',str(os.getcwd())+'\\configsetup\\bootloaderESP32\\bootloader_'+values['flashModeLabel']+'_'+values['flashFreqLabel']+'.bin','0x8000', values['nvsLabel'], '0Xe000', values['OTAdataLabel'], '0x10000', values['firmwareLabel']]                                                     
+            writeFlash = ['--baud', values['uploadSpeedLabel'],'--chip','ESP32', 'write_flash','--flash_mode', values['flashModeLabel'],'--flash_freq',values['flashFreqLabel'],'--flash_size',values['flashSizeLabel'],'0x1000',str(os.getcwd())+'\\configsetup\\bootloaderESP32\\bootloader_'+values['flashModeLabel']+'_'+values['flashFreqLabel']+'.bin', '0x10000', values['firmwareLabel']]                                                   
         else:
-            writeFlash = ['--baud', values['uploadSpeedLabel'],'-p',values['comLabel'],'--chip','ESP32', 'write_flash','--flash_mode', values['flashModeLabel'],'--flash_freq',values['flashFreqLabel'],'--flash_size',values['flashSizeLabel'],'0x1000',str(os.getcwd())+'\\configsetup\\bootloaderESP32\\bootloader_'+values['flashModeLabel']+'_'+values['flashFreqLabel']+'.bin','0x8000',values['nvsLabel'], '0Xe000',values['OTAdataLabel'], '0x10000', values['firmwareLabel']]                                                         
+            writeFlash = ['--baud', values['uploadSpeedLabel'],'-p',values['comLabel'],'--chip','ESP32', 'write_flash','--flash_mode', values['flashModeLabel'],'--flash_freq',values['flashFreqLabel'],'--flash_size',values['flashSizeLabel'],'0x1000',str(os.getcwd())+'\\configsetup\\bootloaderESP32\\bootloader_'+values['flashModeLabel']+'_'+values['flashFreqLabel']+'.bin', '0x10000', values['firmwareLabel']]                                                                 
         closeSerial(values)
     else:
         if(values['comLabel'] =='Auto'):
-            writeFlash = ['--baud', values['uploadSpeedLabel'],'--chip','ESP32', 'write_flash','--flash_mode', values['flashModeLabel'],'--flash_freq',values['flashFreqLabel'],'--flash_size',values['flashSizeLabel'],'0x1000',str(os.getcwd())+'\\configsetup\\bootloaderESP32\\bootloader_'+values['flashModeLabel']+'_'+values['flashFreqLabel']+'.bin','0x8000', values['nvsLabel'], '0x10000', values['firmwareLabel']]                                                     
+            writeFlash = ['--baud', values['uploadSpeedLabel'],'--chip','ESP32', 'write_flash','--flash_mode', values['flashModeLabel'],'--flash_freq',values['flashFreqLabel'],'--flash_size',values['flashSizeLabel'],'0x1000',str(os.getcwd())+'\\configsetup\\bootloaderESP32\\bootloader_'+values['flashModeLabel']+'_'+values['flashFreqLabel']+'.bin', '0x10000', values['firmwareLabel']]                                                     
         else:
-            writeFlash = ['--baud', values['uploadSpeedLabel'],'-p',values['comLabel'],'--chip','ESP32', 'write_flash','--flash_mode', values['flashModeLabel'],'--flash_freq',values['flashFreqLabel'],'--flash_size',values['flashSizeLabel'],'0x1000',str(os.getcwd())+'\\configsetup\\bootloaderESP32\\bootloader_'+values['flashModeLabel']+'_'+values['flashFreqLabel']+'.bin','0x8000',values['nvsLabel'], '0x10000', values['firmwareLabel']]                                                         
+            writeFlash = ['--baud', values['uploadSpeedLabel'],'-p',values['comLabel'],'--chip','ESP32', 'write_flash','--flash_mode', values['flashModeLabel'],'--flash_freq',values['flashFreqLabel'],'--flash_size',values['flashSizeLabel'],'0x1000',str(os.getcwd())+'\\configsetup\\bootloaderESP32\\bootloader_'+values['flashModeLabel']+'_'+values['flashFreqLabel']+'.bin', '0x10000', values['firmwareLabel']]                                                         
         closeSerial(values) 
+    if(values['OTAchkLabel'] == True):
+        writeFlash.append('0xe000',values['OTAdataLabel'])
+    if(values['nvschkLabel'] == True):
+        writeFlash.append('0x8000', values['nvsLabel'])     
     esptool.main(writeFlash)
     sg.Popup('Firmware Carregado!')
     
