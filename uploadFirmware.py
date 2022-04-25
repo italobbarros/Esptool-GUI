@@ -86,8 +86,6 @@ def GUI():
             listPerfil(values,window)
         if event == 'Load':
             readPerfil(values,window)
-
-        perfilTest(values,window)
         savePerfil(values,event) 
         tipoTest(values,window)
         if event == 'Write': # if user closes window or clicks cancel
@@ -137,9 +135,7 @@ def esptoolTypeMCU(values,window):
         closeSerial(values)
     elif(values['MCULabel']== 'ESP32'):
         if(values['nvsLabel'] == ''):
-            window['nvsLabel'].Update( str(os.getcwd())+'frameworkArduinoESP32\\configsetup\\partitions.bin')
-        if(values['OTAchkLabel'] == True):
-            window['OTAdataLabel'].Update(str(os.getcwd())+'frameworkArduinoESP32\\configsetup\\boot_app0.bin')     
+            window['nvsLabel'].Update( str(os.getcwd())+'frameworkArduinoESP32\\configsetup\\partitions.bin')   
         if(values['comLabel'] =='Auto'):
             writeFlash = ['--baud', values['uploadSpeedLabel'],'--chip','ESP32', 'write_flash','--flash_mode', values['flashModeLabel'],'--flash_freq',values['flashFreqLabel'],'--flash_size',values['flashSizeLabel'],'0x1000',str(os.getcwd())+'\\configsetup\\bootloaderESP32\\bootloader_'+values['flashModeLabel']+'_'+values['flashFreqLabel']+'.bin','0x8000', values['nvsLabel'], '0Xe000', values['OTAdataLabel'], '0x10000', values['firmwareLabel']]                                                     
         else:
@@ -221,31 +217,7 @@ def listPerfil(values,window):
 
 def reloadCom(window):
     window['comLabel'].Update(value='',values=verificar_portas())
-
-
-def perfilTest(values,window):
-    global perfil
-    if((values['perfilLabel']== 'MANUAL') and (perfil != 1)):
-        print('Perfil manual carregado')
-        perfil = 1
-    '''
-    elif((values['perfilLabel']== 'ESP32WROVER') and (perfil != 2)):
-        window['flashModeLabel'].Update('dio')
-        window['flashFreqLabel'].Update('80m')
-        window['flashSizeLabel'].Update('4MB')
-        window['MCULabel'].Update('ESP32')
-        print('Perfil ESP32WROVER carregado')
-        perfil = 2
-    elif((values['perfilLabel']== 'ESP8266') and (perfil != 3)):
-        #sg.Popup('Perfil ESP8266 nao desenvolvido!')
-        window['flashModeLabel'].Update('dout')
-        window['flashFreqLabel'].Update('40m')
-        window['flashSizeLabel'].Update('2MB')
-        window['MCULabel'].Update('ESP8266')
-        print('Perfil ESP8266 carregado')
-        perfil = 3
-    '''
-    
+   
                 
 if __name__ == '__main__':
     GUI()
