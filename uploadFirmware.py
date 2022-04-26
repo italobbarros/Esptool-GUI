@@ -146,9 +146,9 @@ def esptoolTypeMCU(values,window):
             writeFlash = ['--baud', values['uploadSpeedLabel'],'-p',values['comLabel'],'--chip','ESP32', 'write_flash','--flash_mode', values['flashModeLabel'],'--flash_freq',values['flashFreqLabel'],'--flash_size',values['flashSizeLabel'],'0x1000',str(os.getcwd())+'\\configsetup\\bootloaderESP32\\bootloader_'+values['flashModeLabel']+'_'+values['flashFreqLabel']+'.bin', '0x10000', values['firmwareLabel']]                                                         
         closeSerial(values) 
     if(values['OTAchkLabel'] == True):
-        writeFlash.append('0xe000',values['OTAdataLabel'])
+        writeFlash += ['0xe000',values['OTAdataLabel']]
     if(values['nvschkLabel'] == True):
-        writeFlash.append('0x8000', values['nvsLabel'])     
+        writeFlash += ['0x8000', values['nvsLabel']]     
     esptool.main(writeFlash)
     sg.Popup('Firmware Carregado!')
     
@@ -178,15 +178,22 @@ def tipoTest(values,window):
         window['sec_firmware'].update(visible=False)
         window['sec_caminho'].update(visible=True)
         
-        
-    if values['OTAchkLabel'] == True:
-        window['sec_ota'].update(visible=True)
-    else:
-        window['sec_ota'].update(visible=False)  
-    if values['nvschkLabel'] == True:
-        window['sec_nvs'].update(visible=True)
-    else:
-        window['sec_nvs'].update(visible=False)  
+    if(values['frameworkLabel'] == 'Arduino'):    
+        window['sec_ota'].update(visible=False)
+        window['OTAdataLabel'].Update('configsetup/frameworkArduinoESP32/boot_app0.bin')  
+        if values['nvschkLabel'] == True:
+            window['sec_nvs'].update(visible=True)
+        else:
+            window['sec_nvs'].update(visible=False)
+    if(values['frameworkLabel'] == 'IDF'):    
+        if values['OTAchkLabel'] == True:
+            window['sec_ota'].update(visible=True)
+        else:
+            window['sec_ota'].update(visible=False)  
+        if values['nvschkLabel'] == True:
+            window['sec_nvs'].update(visible=True)
+        else:
+            window['sec_nvs'].update(visible=False)   
          
 def savePerfil(values,event):
     if(event == 'Save'):
