@@ -1,6 +1,7 @@
 # Esptool-GUI
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
-[![Github Releases](https://img.shields.io/github/downloads/italobbarros/Esptool-GUI/total.svg?style=flat)](https://github.com/italobbarros/Esptool-GUI/releases)
+[![Github All Releases](https://img.shields.io/github/downloads/italobbarros/Esptool-GUI/total.svg?style=flat)]()
+
 
 ![Image 1](doc/img/img1.png)
 ![Image 2](doc/img/img2.png)
